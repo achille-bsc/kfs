@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
+/*   set_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:37:07 by abosc            ###   ########.fr       */
+/*   Created: 2026/04/19 00:26:19 by abosc             #+#    #+#             */
+/*   Updated: 2026/04/19 00:28:04 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "kernel.h"
+#include "../kernel/kernel.h"
 
-int current_terminal = 0;
-
-t_terminal g_terminal[TERMINAL_COUNTERS];
-
-int kernel_main(void)
+void set_color(unsigned char fg, unsigned char bg)
 {
-	terminal_init();
-	
-	putstr("Hello, World!");
-	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
-	putstr("42");
-
-	while (1)
-	{
-	}
+	g_terminal[current_terminal].color = kcolors(fg, bg);
 }

@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
+/*   strcmp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:37:07 by abosc            ###   ########.fr       */
+/*   Created: 2026/04/18 23:09:13 by abosc             #+#    #+#             */
+/*   Updated: 2026/04/18 23:13:03 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "kernel.h"
-
-int current_terminal = 0;
-
-t_terminal g_terminal[TERMINAL_COUNTERS];
-
-int kernel_main(void)
+int strcmp(const char *s1, const char *s2)
 {
-	terminal_init();
-	
-	putstr("Hello, World!");
-	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
-	putstr("42");
+	int i;
 
-	while (1)
-	{
-	}
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

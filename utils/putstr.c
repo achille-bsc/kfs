@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
+/*   putstr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:37:07 by abosc            ###   ########.fr       */
+/*   Created: 2026/04/18 22:53:03 by abosc             #+#    #+#             */
+/*   Updated: 2026/04/21 12:34:56 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "kernel.h"
+#include "./utils.h"
 
-int current_terminal = 0;
-
-t_terminal g_terminal[TERMINAL_COUNTERS];
-
-int kernel_main(void)
+int putstr(const char *str)
 {
-	terminal_init();
-	
-	putstr("Hello, World!");
-	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
-	putstr("42");
-
-	while (1)
+	int i = 0;
+	while (str[i] != '\0')
 	{
+		putchar(str[i]);
+		i++;
 	}
+	putchar('\n');
+	return (i);
 }

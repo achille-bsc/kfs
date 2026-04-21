@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
+/*   memset.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:37:07 by abosc            ###   ########.fr       */
+/*   Created: 2026/04/18 23:09:12 by abosc             #+#    #+#             */
+/*   Updated: 2026/04/18 23:13:32 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "kernel.h"
+#include "lib.h"
 
-int current_terminal = 0;
-
-t_terminal g_terminal[TERMINAL_COUNTERS];
-
-int kernel_main(void)
+void *memset(void *s, int c, size_t n)
 {
-	terminal_init();
-	
-	putstr("Hello, World!");
-	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
-	putstr("42");
+	size_t i;
 
-	while (1)
+	i = 0;
+	while (i < n)
 	{
+		((uint8_t *)s)[i] = (uint8_t)c;
+		i++;
 	}
+	return (s);
 }

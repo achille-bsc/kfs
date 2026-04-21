@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
+/*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:37:07 by abosc            ###   ########.fr       */
+/*   Created: 2026/04/19 00:48:22 by abosc             #+#    #+#             */
+/*   Updated: 2026/04/19 00:48:23 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "kernel.h"
-
-int current_terminal = 0;
-
-t_terminal g_terminal[TERMINAL_COUNTERS];
-
-int kernel_main(void)
+void outb(unsigned short port, unsigned char value)
 {
-	terminal_init();
-	
-	putstr("Hello, World!");
-	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
-	putstr("42");
+    __asm__ volatile ("outb %0, %1" : : "a"(value), "Nd"(port));
+}
 
-	while (1)
-	{
-	}
+unsigned char inb(unsigned short port)
+{
+    unsigned char value;
+    __asm__ volatile ("inb %1, %0" : "=a"(value) : "Nd"(port));
+    return value;
 }

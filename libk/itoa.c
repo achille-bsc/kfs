@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kernel.c                                           :+:      :+:    :+:   */
+/*   itoa.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:37:07 by abosc            ###   ########.fr       */
+/*   Created: 2026/04/18 23:36:11 by abosc             #+#    #+#             */
+/*   Updated: 2026/04/18 23:36:36 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "kernel.h"
-
-int current_terminal = 0;
-
-t_terminal g_terminal[TERMINAL_COUNTERS];
-
-int kernel_main(void)
+char *itoa(int num)
 {
-	terminal_init();
-	
-	putstr("Hello, World!");
-	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
-	putstr("42");
+	static char buffer[12];
+	int i = 10;
+	buffer[11] = '\0';
 
-	while (1)
-	{
-	}
+	int is_negative = num < 0;
+	if (is_negative)
+		num = -num;
+
+	do {
+		buffer[i--] = '0' + (num % 10);
+		num /= 10;
+	} while (num > 0);
+
+	if (is_negative)
+		buffer[i--] = '-';
+
+	return &buffer[i + 1];
 }

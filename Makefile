@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/04/18 23:09:19 by abosc             #+#    #+#              #
+#    Updated: 2026/04/21 12:36:22 by abosc            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME        =   kernel.bin
 ISO_NAME    =   kernel.iso
 ISO_DIR     =   iso
@@ -16,7 +28,19 @@ OBJ_DIR     =   obj
 
 ASM_SRC     =   boot/boot.asm
 
-C_SRC       =   kernel/kernel.c
+C_SRC       =   kernel/kernel.c		\
+				kernel/terminal.c	\
+				utils/putchar.c		\
+				utils/putstr.c		\
+				utils/kcolors.c		\
+				utils/set_color.c	\
+				libk/strlen.c		\
+				libk/memset.c		\
+				libk/memcpy.c		\
+				libk/strcmp.c		\
+				libk/printk.c		\
+				libk/itoa.c			\
+				io/io.c				\
 
 ASM_OBJ     =   $(ASM_SRC:%.asm=$(OBJ_DIR)/%.o)
 C_OBJ       =   $(C_SRC:%.c=$(OBJ_DIR)/%.o)
