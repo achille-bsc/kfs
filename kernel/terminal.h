@@ -6,10 +6,11 @@
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 12:35:47 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/21 12:36:13 by abosc            ###   ########.fr       */
+/*   Updated: 2026/05/01 19:06:04 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 void update_cursor();
 void terminal_init();
+// void terminal_render_current();

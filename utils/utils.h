@@ -6,13 +6,15 @@
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 22:50:05 by abosc             #+#    #+#             */
-/*   Updated: 2026/04/19 00:31:42 by abosc            ###   ########.fr       */
+/*   Updated: 2026/05/01 19:08:05 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 ///////////
 // ENUMS //
 ///////////
+#ifndef UTILS_H
+#define UTILS_H
 enum e_vga_colors
 {
 	VGA_COLOR_BLACK = 0,
@@ -40,3 +42,7 @@ void			putchar		(char c);
 int				putstr		(const char *str);
 unsigned char	kcolors		(unsigned char fg, unsigned char bg);
 void			set_color	(unsigned char fg, unsigned char bg);
+void 			update_vga_buffer();
+int				get_pos();
+
+#endif

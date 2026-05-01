@@ -6,7 +6,7 @@
 #    By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/18 23:09:19 by abosc             #+#    #+#              #
-#    Updated: 2026/04/21 12:36:22 by abosc            ###   ########.fr        #
+#    Updated: 2026/05/01 18:58:21 by abosc            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,26 +21,29 @@ NASM        =   nasm
 LD_FLAGS    =   -m elf_i386 -T linker.ld
 ASM_FLAGS   =   -f elf32
 CFLAGS      =   -Wall -Wextra -Werror -m32 -ffreestanding -fno-builtin \
-                -nostdlib -nodefaultlibs -fno-stack-protector -mgeneral-regs-only\
+                -nostdlib -nodefaultlibs -fno-exceptions -fno-stack-protector -mgeneral-regs-only \
 				-I.
 
 OBJ_DIR     =   obj
 
 ASM_SRC     =   boot/boot.asm
 
-C_SRC       =   kernel/kernel.c		\
-				kernel/terminal.c	\
-				utils/putchar.c		\
-				utils/putstr.c		\
-				utils/kcolors.c		\
-				utils/set_color.c	\
-				libk/strlen.c		\
-				libk/memset.c		\
-				libk/memcpy.c		\
-				libk/strcmp.c		\
-				libk/printk.c		\
-				libk/itoa.c			\
-				io/io.c				\
+C_SRC       =   kernel/kernel.c				\
+				kernel/terminal.c			\
+				kernel/keyboard/keyboard.c	\
+				utils/putchar.c				\
+				utils/putstr.c				\
+				utils/kcolors.c				\
+				utils/set_color.c			\
+				utils/pos.c					\
+				utils/vga_buffer.c			\
+				libk/strlen.c				\
+				libk/memset.c				\
+				libk/memcpy.c				\
+				libk/strcmp.c				\
+				libk/printk.c				\
+				libk/itoa.c					\
+				io/io.c						\
 
 ASM_OBJ     =   $(ASM_SRC:%.asm=$(OBJ_DIR)/%.o)
 C_OBJ       =   $(C_SRC:%.c=$(OBJ_DIR)/%.o)
