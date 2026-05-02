@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 20:49:36 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 20:00:12 by abosc            ###   ########.fr       */
+/*   Updated: 2026/05/01 22:52:36 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void pic_init()
 	outb(0xA1, 0xFF);
 }
 
+
 int kernel_main(void)
 {
+	gdt_init();
 	terminal_init();
 	idt_init();
 	pic_init();
@@ -48,6 +50,7 @@ int kernel_main(void)
 	set_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK);
 	putstr("42\n");
 	g_terminal[g_current_terminal].color = (VGA_COLOR_BLACK << 4) | VGA_COLOR_WHITE;
+	shell_init();
 
 	while (1)
 	{

@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   power.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 23:07:46 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 22:36:17 by abosc            ###   ########.fr       */
+/*   Created: 2026/05/01 22:54:32 by abosc             #+#    #+#             */
+/*   Updated: 2026/05/01 23:00:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include "cmds.h"
+#include "../../../io/io.h"
 
-typedef unsigned int size_t;
-typedef unsigned char uint8_t;   /* 1 byte  */
-typedef unsigned short uint16_t; /* 2 bytes */
-typedef unsigned long uint32_t; 
+void power_halt(void)
+{
+  __asm__ volatile("cli; hlt"); 
+}
 
-#endif
-
-#ifndef _UINTPTR_T
-typedef __UINTPTR_TYPE__ uintptr_t;
-#define _UINTPTR_T
-#endif
+void power_reboot(void)
+{
+  uint8_t good = 0x02;
+  while (good & 0x02) {
+    good = inb(0x64);
+  }
+  outb(0x64, 0xFE);
+  __asm__ volatile("hlt");
+}

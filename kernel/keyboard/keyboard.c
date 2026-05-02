@@ -6,12 +6,13 @@
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 19:34:54 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 19:55:01 by abosc            ###   ########.fr       */
+/*   Updated: 2026/05/01 23:06:07 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "keyboard.h"
 #include "../kernel.h"
+#include "../shell/shell.h"
 // #include "../../utils/utils.h"
 
 t_idt_entry idt[256];
@@ -57,8 +58,9 @@ __attribute__((interrupt)) void keyboard_handler(struct interrupt_frame* frame) 
                     g_current_terminal = (c - '1') % TERMINAL_COUNTERS;
                   update_vga_buffer();
                   update_cursor();
+                  shell_init();
                 }
-                else if (c) putchar(c);
+                else if (c) shell_handle_char(c);
             }
         } else {
             if (keyboard_input < sizeof(min_scancode_table)) {
@@ -81,8 +83,9 @@ __attribute__((interrupt)) void keyboard_handler(struct interrupt_frame* frame) 
                     g_current_terminal = (c - '1') % TERMINAL_COUNTERS;
                   update_vga_buffer();
                   update_cursor();
+                  shell_init();
                 }
-                else if (c) putchar(c);
+                else if (c) shell_handle_char(c);
             }
         }
     }

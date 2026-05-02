@@ -1,26 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 23:07:46 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 22:36:17 by abosc            ###   ########.fr       */
+/*   Created: 2026/05/01 22:45:18 by abosc             #+#    #+#             */
+/*   Updated: 2026/05/01 22:52:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-#define TYPES_H
-
-typedef unsigned int size_t;
-typedef unsigned char uint8_t;   /* 1 byte  */
-typedef unsigned short uint16_t; /* 2 bytes */
-typedef unsigned long uint32_t; 
-
-#endif
-
-#ifndef _UINTPTR_T
-typedef __UINTPTR_TYPE__ uintptr_t;
-#define _UINTPTR_T
-#endif
+void shell_handle_char(char c);
+void shell_init();

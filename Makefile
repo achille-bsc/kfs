@@ -6,7 +6,7 @@
 #    By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/18 23:09:19 by abosc             #+#    #+#              #
-#    Updated: 2026/05/01 18:58:21 by abosc            ###   ########.fr        #
+#    Updated: 2026/05/01 23:18:12 by abosc            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,10 @@ ASM_SRC     =   boot/boot.asm
 C_SRC       =   kernel/kernel.c				\
 				kernel/terminal.c			\
 				kernel/keyboard/keyboard.c	\
+				kernel/gdt/gdt.c			\
+				kernel/shell/shell.c		\
+				kernel/shell/cmds/power.c	\
+				kernel/shell/cmds/stack.c	\
 				utils/putchar.c				\
 				utils/putstr.c				\
 				utils/kcolors.c				\
@@ -71,6 +75,10 @@ $(OBJ_DIR)/%.o: %.c
 run: re $(ISO_NAME)
 	qemu-system-i386 -cdrom $(ISO_NAME)
 
+
+dev: all $(ISO_NAME)
+	qemu-system-i386 -drive format=raw,file=$(ISO_NAME) -s -S
+
 clean:
 	rm -rf $(OBJ_DIR)
 
@@ -80,4 +88,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run dev

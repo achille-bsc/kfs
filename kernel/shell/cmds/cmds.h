@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   cmds.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/18 23:07:46 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 22:36:17 by abosc            ###   ########.fr       */
+/*   Created: 2026/05/01 22:55:03 by abosc             #+#    #+#             */
+/*   Updated: 2026/05/01 22:59:14 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-#define TYPES_H
+#include "../../../utils/utils.h"
+#include "../../../libk/types.h"
 
-typedef unsigned int size_t;
-typedef unsigned char uint8_t;   /* 1 byte  */
-typedef unsigned short uint16_t; /* 2 bytes */
-typedef unsigned long uint32_t; 
 
-#endif
-
-#ifndef _UINTPTR_T
-typedef __UINTPTR_TYPE__ uintptr_t;
-#define _UINTPTR_T
-#endif
+void dump_kernel_stack(size_t words);
+void power_halt(void);
+void power_reboot(void);
