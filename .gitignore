@@ -1,12 +1,4 @@
-# Build directories
-obj/
-iso/
-
-# Compiled object files
+iso
 *.o
-
-# Compiled binaries and images
-kfs.bin
-kfs.iso
-.vscode
-kfs
+obj
+kfs*
