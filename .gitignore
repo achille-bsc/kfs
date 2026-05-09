@@ -6,6 +6,7 @@ iso/
 *.o
 
 # Compiled binaries and images
-kernel.bin
-kernel.iso
+kfs.bin
+kfs.iso
 .vscode
+kfs

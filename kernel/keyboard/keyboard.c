@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 19:34:54 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 23:06:07 by abosc            ###   ########.fr       */
+/*   Updated: 2026/05/03 19:12:59 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,6 @@ void idt_set_gate(unsigned char num, unsigned int handler)
  
 void idt_init(void)
 {
-	for (int i = 0; i < 256; i++)
-	{
-		idt[i].offset_low  = 0;
-		idt[i].selector    = 0;
-		idt[i].zero        = 0;
-		idt[i].flags       = 0;
-		idt[i].offset_high = 0;
-	}
- 
 	/* Register the keyboard IRQ handler (IRQ1 -> INT 0x21 after PIC remap) */
 	idt_set_gate(0x21, (unsigned int)keyboard_handler);
  
@@ -122,4 +113,3 @@ void idt_init(void)
 	idtr.base  = (unsigned int)&idt;
 	__asm__ volatile("lidt %0" : : "m"(idtr));
 }
-

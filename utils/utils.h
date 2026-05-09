@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 22:50:05 by abosc             #+#    #+#             */
-/*   Updated: 2026/05/01 19:08:05 by abosc            ###   ########.fr       */
+/*   Updated: 2026/05/03 19:15:17 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,7 @@ void			set_color	(unsigned char fg, unsigned char bg);
 void 			update_vga_buffer();
 int				get_pos();
 
+size_t split_words(char* line, char** argv, size_t max_args);
+size_t strlcpy(char* dst, const char* src, size_t dst_size);
+int atoi(const char* str);
 #endif

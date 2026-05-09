@@ -1,91 +1,73 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: abosc <abosc@42lehavre.fr>                 +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/04/18 23:09:19 by abosc             #+#    #+#              #
-#    Updated: 2026/05/01 23:18:12 by abosc            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	= kfs
+CC		= gcc
+AS		= nasm
 
-NAME        =   kernel.bin
-ISO_NAME    =   kernel.iso
-ISO_DIR     =   iso
+SRCDIR	= src
+INCDIR	= includes
+LDSCRIPT = $(SRCDIR)/linker.ld
 
-LD          =   ld
-CC          =   gcc
-NASM        =   nasm
+CFLAGS	= -m32 -std=gnu99 -ffreestanding -fno-builtin -fno-stack-protector -nostdlib -Wall -Wextra -I$(INCDIR)
+LDFLAGS	= -m elf_i386
+ASFLAGS	= -f elf32
+GRUBFLAGS = --compress=gz --fonts="" --themes="" --locales=""
 
-LD_FLAGS    =   -m elf_i386 -T linker.ld
-ASM_FLAGS   =   -f elf32
-CFLAGS      =   -Wall -Wextra -Werror -m32 -ffreestanding -fno-builtin \
-                -nostdlib -nodefaultlibs -fno-exceptions -fno-stack-protector -mgeneral-regs-only \
-				-I.
+include Files.mk
 
-OBJ_DIR     =   obj
+SRCS_C = $(addsuffix .c,$(addprefix $(SRCDIR)/,$(FILES)))
 
-ASM_SRC     =   boot/boot.asm
+SRCS_S	= $(SRCDIR)/boot.s
+OBJDIR	= obj
+OBJS	= $(addprefix $(OBJDIR)/,$(SRCS_S:.s=.o) $(SRCS_C:.c=.o))
+DEPS	= $(OBJS:.o=.d)
 
-C_SRC       =   kernel/kernel.c				\
-				kernel/terminal.c			\
-				kernel/keyboard/keyboard.c	\
-				kernel/gdt/gdt.c			\
-				kernel/shell/shell.c		\
-				kernel/shell/cmds/power.c	\
-				kernel/shell/cmds/stack.c	\
-				utils/putchar.c				\
-				utils/putstr.c				\
-				utils/kcolors.c				\
-				utils/set_color.c			\
-				utils/pos.c					\
-				utils/vga_buffer.c			\
-				libk/strlen.c				\
-				libk/memset.c				\
-				libk/memcpy.c				\
-				libk/strcmp.c				\
-				libk/printk.c				\
-				libk/itoa.c					\
-				io/io.c						\
+all: $(NAME)
 
-ASM_OBJ     =   $(ASM_SRC:%.asm=$(OBJ_DIR)/%.o)
-C_OBJ       =   $(C_SRC:%.c=$(OBJ_DIR)/%.o)
-OBJ         =   $(ASM_OBJ) $(C_OBJ)
+$(NAME): $(OBJS)
+	@printf "\tLD $@\n"
+	@ld -T $(LDSCRIPT) -o $(NAME) $(LDFLAGS) $(OBJS)
+	@printf "Compilation finished. Output: $(NAME)\n"
 
-all: $(ISO_NAME)
+$(OBJDIR)/%.o: %.c
+	@printf "\tCC $<\n"
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
-$(ISO_NAME): $(NAME)
-	mkdir -p $(ISO_DIR)/boot/grub
-	cp $(NAME) $(ISO_DIR)/boot/
-	cp grub.cfg $(ISO_DIR)/boot/grub/
-	grub-mkrescue --compress=gz -o $(ISO_NAME) $(ISO_DIR)
+$(OBJDIR)/%.o: %.s
+	@printf "\tAS $<\n"
+	@mkdir -p $(dir $@)
+	@$(AS) $(ASFLAGS) $< -o $@
 
-$(NAME): $(OBJ)
-	$(LD) $(LD_FLAGS) -o $@ $^
-
-$(OBJ_DIR)/%.o: %.asm
-	mkdir -p $(dir $@)
-	$(NASM) $(ASM_FLAGS) $< -o $@
-
-$(OBJ_DIR)/%.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-run: re $(ISO_NAME)
-	qemu-system-i386 -cdrom $(ISO_NAME)
-
-
-dev: all $(ISO_NAME)
-	qemu-system-i386 -drive format=raw,file=$(ISO_NAME) -s -S
+-include $(DEPS)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJDIR)
+	@rm -f *.iso
 
 fclean: clean
-	rm -f $(NAME) $(ISO_NAME)
-	rm -rf $(ISO_DIR)
+	@echo "Cleaning executable..."
+	@rm -f $(NAME)
+	@echo "Executable removed."
+	@echo "Cleaning ISO directory..."
+	@rm -rf iso
+	@echo "ISO directory removed."
 
-re: fclean all
+re:
+	@$(MAKE) fclean
+	@$(MAKE) all
 
-.PHONY: all clean fclean re run dev
+iso: re
+	@echo "Creating ISO image..."
+	@mkdir -p iso/boot/grub
+	@cp $(NAME) iso/boot/
+	@printf 'set timeout=5\nset default=0\n\nmenuentry "etaquet $(NAME)" {\n\tmultiboot /boot/$(NAME)\n\tboot\n}\n' > iso/boot/grub/grub.cfg
+	@grub-mkrescue $(GRUBFLAGS) -o $(NAME).iso iso
+	@echo "ISO image created: $(NAME).iso"
+
+run: iso
+	@echo "Launching QEMU..."
+	@qemu-system-i386 -cdrom $(NAME).iso
+
+dev: iso
+	@qemu-system-i386 -drive format=raw,file=$(NAME).iso -s -S
+
+.PHONY: all re clean fclean iso run dev
